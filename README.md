@@ -25,11 +25,11 @@ $ yarn add rxjs-hooks rxjs
 
 ## Quick look
 
-- [useObservable - live demo](https://codesandbox.io/s/00x0z72l5n)
+- [useObservable - live demo](https://codesandbox.io/s/rxjs-hooks-basic-oee81n)
 
 ```javascript
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { useObservable } from "rxjs-hooks";
 import { interval } from "rxjs";
 import { map } from "rxjs/operators";
@@ -45,11 +45,11 @@ function App() {
 }
 ```
 
-- [useEventCallback - live demo](https://codesandbox.io/s/jpjr31qmw)
+- [useEventCallback - live demo](https://codesandbox.io/s/rxjs-hooks-useeventcallback-forked-5s1mvq)
 
 ```javascript
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { useEventCallback } from "rxjs-hooks";
 import { map } from "rxjs/operators";
 
@@ -109,8 +109,6 @@ function App() {
     <h1>{value}</h1>
   )
 }
-
-ReactDOM.render(<App />, document.querySelector('#app'))
 ```
 
 **With default value:**
@@ -129,8 +127,6 @@ function App() {
     <h1>{value}</h1>
   )
 }
-
-ReactDOM.render(<App />, document.querySelector('#app'))
 ```
 
 **Observe props change:**
@@ -138,7 +134,6 @@ ReactDOM.render(<App />, document.querySelector('#app'))
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { useObservable } from 'rxjs-hooks'
-import { of } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 function App(props: { foo: number }) {
@@ -151,18 +146,18 @@ function App(props: { foo: number }) {
     <h1>{value}</h1>
   )
 }
-
-ReactDOM.render(<App foo={1000} />, document.querySelector('#app'))
-ReactDOM.render(<App foo={2000} />, document.querySelector('#app'))
+const rootElement = document.querySelector("#app");
+ReactDOM.createRoot(rootElement).render(<App foo={1000}/>);
+ReactDOM.createRoot(rootElement).render(<App foo={2000}/>);
 ```
 
 **useObservable with state$**
 
-[live demo](https://codesandbox.io/s/7jwv36w876)
+[live demo](https://codesandbox.io/s/rxjs-hooks-useobservable-with-state-forked-9fjefy)
 
 ```tsx
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { useObservable } from 'rxjs-hooks'
 import { interval } from 'rxjs'
 import { map, withLatestFrom } from 'rxjs/operators'
@@ -181,8 +176,6 @@ function App() {
     <h1>{value}</h1>
   )
 }
-
-ReactDOM.render(<App />, document.querySelector('#root'))
 ```
 
 ### `useEventCallback`
@@ -212,7 +205,6 @@ function App() {
   )
 }
 
-ReactDOM.render(<App />, document.querySelector('#app'))
 ```
 
 **With initial value:**
@@ -241,16 +233,15 @@ function App() {
   )
 }
 
-ReactDOM.render(<App />, document.querySelector('#app'))
 ```
 
 **With state$:**
 
-[live demo](https://codesandbox.io/s/m95lz934x)
+[live demo](https://codesandbox.io/s/rxjs-hooks-useeventcallback-with-state-forked-rg1frx)
 
 ```tsx
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { useEventCallback } from "rxjs-hooks";
 import { map, withLatestFrom } from "rxjs/operators";
 
@@ -283,13 +274,11 @@ function App() {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
 ```
 
-**A complex example: useEventCallback with both inputs$ and state$**
+**A complex example: useEventCallback with both `inputs$` and `state$`**
 
-[live demo](https://codesandbox.io/s/n1pn02jxym)
+[live demo](https://codesandbox.io/s/rxjs-hooks-useeventcallback-with-state-forked-tlwdil)
 
 ```tsx
 import React, { useState } from "react";
@@ -338,13 +327,11 @@ function App() {
   );
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
 ```
 
 **Example of combining callback observables coming from separate elements - animation with start/stop button and rate controllable via slider**
 
-[live demo](https://codesandbox.io/s/pprzmxy230)
+[live demo](https://codesandbox.io/s/late-wood-x5rg0l)
 
 ```tsx
 const Animation = ({ frame }) => {
@@ -396,3 +383,6 @@ const App = () => {
   );
 };
 ```
+
+## Known issues
+If you are using React 18 + `StrictMode` under NODE_ENV=development, `rxjs-hooks` may not work properly. https://github.com/facebook/react/issues/24502#issuecomment-1118846544
